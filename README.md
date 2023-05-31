@@ -25,11 +25,11 @@ echo "example.com" | waybackurls | grep -iE '\.js'|grep -ivE '\.json'|sort -u  >
 or
 echo "example.com" | waybackurls | httpx > live.txt
 
+katana -u https://target.com -cs https://target.com -d 20 -jc | grep '\.js' | cut -d '?' -f1 | anew | httpx -silent > crawl-js.txt
+
 ```
 ```
-python3 JSScanner.py
-Please Enter Any File: text.txt (your links file)
-Path Of Regex/Patten File: regex.txt (your regex file)
+python3 JSScanner.py -f crawl-js.txt -r regex.txt
 ```
 ## Open redirect 
 
