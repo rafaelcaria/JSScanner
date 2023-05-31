@@ -150,6 +150,8 @@ ey[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$
 (passwd|PASSWD)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
 (password|PASSWORD)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
 (passwords|PASSWORDS)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
+(senha|SENHA|Senha)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
+(senhas|SENHAS|Senhas)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
 (pemprivate|PEMPRIVATE)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
 (preprod|PREPROD)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
 (private_key|PRIVATE_KEY)(:|=| : | = )( |"|')[0-9A-Za-z\\-]{5,100}
