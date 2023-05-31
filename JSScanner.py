@@ -6,43 +6,20 @@ from concurrent import futures
 import re 
 import urllib3 
 import os
+import argparse
 import colored
 from colored import stylize
 urllib3.disable_warnings()
-print(colored.fg("red"), 
-     "╔════════════════════════════════════════════════════════════════╗\n"
-      "║                    Devlope By 0x240x23elu                      ║\n"
-      "║                                                                ║\n"
-      "╚════════════════════════════════════════════════════════════════╝")
-print("╔════════════════════════════════════════════════════════════════╗\n"
-      "║                                                                ║\n"
-      "║                           WARNING                              ║\n"
-      "║                                                                ║\n"
-      "║      I highly recommend using this tool by using Kali Linux OS ║\n"
-      "║                                                                ║\n"
-      "║      By using this tool it means you agree with terms,         ║\n"
-      "║      conditions, and risks                                     ║\n"
-      "║                                                                ║\n"
-      "║      By using this tool you agree that                         ║\n"
-      "║      1. use for legitimate security testing                    ║\n"
-      "║      2. not for crime                                          ║\n"
-      "║      3. the use of this tool solely for                        ║\n"
-      "║         educational reasons only                               ║\n"
-      "║                                                                ║\n"
-      "║      By using this tool you agree that                         ║\n"
-      "║      1. You are willing to be charged with criminal or state   ║\n"
-      "║         law applicable by law enforcement officers             ║\n"
-      "║         and government when abused                             ║\n"
-      "║      2. the risk is borne by yourself                          ║\n"
-      "║                                                                ║\n"
-      "║         Thank you and happy pentest                            ║\n"
-      "║                                                                ║\n"
-      "╚════════════════════════════════════════════════════════════════╝")
 
-path = input("Please Enter Any File: ") 
-reg = input("Path Of Regex/Patten File: ")
+parser = argparse.ArgumentParser(description='Regex Matcher')
+parser.add_argument('-f', '--file', help='File containing IP addresses', required=True)
+parser.add_argument('-r', '--regex', help='File containing regex patterns', required=True)
+parser.add_argument('-o', '--output', help='Output file to store matches', default='out.txt')
+
+args = parser.parse_args()
+
 list=[] 
-file1 = open(path, 'r')
+file1 = open(args.file, 'r')
 Lines = file1.readlines() 
 count = 0
 # Strips the newline character
@@ -65,7 +42,7 @@ for line in Lines:
 
         
         
-        file2 = open(reg, 'r')
+        file2 = open(args.regex, 'r')
         Lines2 = file2.readlines()
         for line2 in Lines2: 
             regex = line2.strip()
@@ -82,5 +59,4 @@ for line in Lines:
            
     except requests.exceptions.RequestException as e:
         # A serious problem happened, like an SSLError or InvalidURL
-        print("Error: {}".format(e))    
-
+        print("Error: {}".format(e))
