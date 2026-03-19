@@ -1,102 +1,70 @@
-# ================= AWS =================
 (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
 amzn\.mws\.[0-9a-f\-]{36}
 (?i)aws(.{0,20})?['"][0-9a-zA-Z/+]{40}['"]
-# ================= S3 =================
 [a-zA-Z0-9\.\-_]+\.s3\.amazonaws\.com
 s3:\/\/[a-zA-Z0-9\.\-_]+
-# ================= AZURE =================
 (?i)(AccountKey|accountkey)\s*=\s*[A-Za-z0-9+/]{88}==
 DefaultEndpointsProtocol=https;AccountName=[^;]+;AccountKey=[A-Za-z0-9+/]{88}==
 (?i)(AZURE_CLIENT_SECRET|AZURE_CLIENT_ID|AZURE_TENANT_ID)\s*[:=]\s*['"]?[A-Za-z0-9\-]{10,}
 [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
-# ================= GCP =================
 AIza[0-9A-Za-z\-_]{35}
 ya29\.[0-9A-Za-z\-_]+
 [0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com
 (?i)"type"\s*:\s*"service_account"
-# ================= SLACK =================
 xox[baprs]-[0-9A-Za-z\-]{10,}
 https:\/\/hooks\.slack\.com\/services\/[A-Za-z0-9_]+\/[A-Za-z0-9_]+\/[A-Za-z0-9_]+
-# ================= STRIPE =================
 sk_(live|test)_[0-9a-zA-Z]{24,}
 rk_(live|test)_[0-9a-zA-Z]{24,}
-# ================= SQUARE =================
 sq0[a-z]{3}-[0-9A-Za-z\-_]{22,43}
-# ================= TWILIO =================
 SK[0-9a-fA-F]{32}
 AC[a-zA-Z0-9_\-]{32}
-# ================= FACEBOOK =================
 EAACEdEose0cBA[0-9A-Za-z]+
-# ================= TWITTER / X =================
 (?i)twitter.{0,20}['"][0-9a-zA-Z]{18,44}
-# ================= GITHUB =================
 gh[pousr]_[A-Za-z0-9_]{36,}
 github_pat_[A-Za-z0-9_]{22,}
 [a-f0-9]{40}
-# ================= GITLAB =================
 glpat-[A-Za-z0-9\-_]{20}
-# ================= JWT =================
 eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+
-# ================= PRIVATE KEYS =================
 -----BEGIN [A-Z ]+ PRIVATE KEY-----
-# ================= FIREBASE =================
 AAAA[A-Za-z0-9_-]{5,100}:[A-Za-z0-9_-]{100,}
-# ================= IA / LLM =================
 sk-[A-Za-z0-9]{48}
 sk-proj-[A-Za-z0-9\-_]{40,}
 sk-ant-[A-Za-z0-9\-_]{80,}
 (?i)(openai|anthropic|huggingface|cohere|replicate|groq)[_-]?(api[_-]?key|key|token|secret)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
 hf_[A-Za-z0-9]{34,}
-# ================= DEVOPS / CI-CD =================
 (?i)(CIRCLE_TOKEN|CIRCLECI_TOKEN)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{40}
 (?i)(TRAVIS_TOKEN|TRAVIS_CI)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
 (?i)(JENKINS_TOKEN|JENKINS_API)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
 (?i)(SONAR_TOKEN|SONARQUBE_TOKEN)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{40}
-# ================= DOCKER / KUBERNETES =================
 (?i)(DOCKER_PASSWORD|DOCKER_TOKEN)\s*[:=]\s*['"]?[A-Za-z0-9\-_!@#$%]{8,}
 (?i)(KUBECONFIG|KUBE_TOKEN|K8S_TOKEN)\s*[:=]\s*['"]?[A-Za-z0-9\-_\.]{20,}
 (?i)kubectl.{0,30}--token\s+[A-Za-z0-9\-_\.]{20,}
-# ================= HASHICORP VAULT =================
 (?i)(VAULT_TOKEN|vault_token)\s*[:=]\s*['"]?[A-Za-z0-9\.\-_]{20,}
 hvs\.[A-Za-z0-9]{24,}
-# ================= NPM / PACKAGE REGISTRY =================
 (?i)npm_token\s*[:=]\s*['"]?[A-Za-z0-9\-_]{36}
 npm_[A-Za-z0-9]{36}
 (?i)(_auth|_authToken)\s*=\s*[A-Za-z0-9+/=]{20,}
-# ================= PAGAMENTOS BR =================
 (?i)(pagseguro).{0,20}token\s*[:=]\s*['"]?[A-Za-z0-9\-]{32,}
 (?i)(mercadopago|mercado_pago).{0,20}(access_token|token)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
 APP_USR-[0-9]+-[0-9A-Za-z\-]+
 TEST-[0-9]+-[0-9A-Za-z\-]+
 (?i)(picpay|gerencianet|asaas|juno|iugu).{0,20}(token|key|secret)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
-# ================= PAYPAL =================
 (?i)(paypal).{0,20}(client_id|client_secret|token)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
-# ================= SENDGRID / EMAIL SVC =================
 SG\.[A-Za-z0-9\-_]{22}\.[A-Za-z0-9\-_]{43}
 (?i)(sendgrid|mailgun|mailchimp|ses_key)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
-# ================= TWITCH / DISCORD =================
 (?i)(discord).{0,20}(token|webhook|bot_token)\s*[:=]\s*['"]?[A-Za-z0-9\-_\.]{50,}
 https:\/\/discord(app)?\.com\/api\/webhooks\/[0-9]+\/[A-Za-z0-9\-_]+
 (?i)(twitch).{0,20}(client_secret|oauth|token)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
-# ================= ALGOLIA / ELASTIC =================
 (?i)(algolia).{0,20}(api_key|admin_key|search_key)\s*[:=]\s*['"]?[A-Za-z0-9]{32}
 (?i)(elastic|elasticsearch).{0,20}(password|api_key|token)\s*[:=]\s*['"]?[A-Za-z0-9\-_]{20,}
-# ================= GENERIC (CONTROLADO) =================
 (?i)(api[_-]?key|secret|token|access_token|client_secret)\s*[:=]\s*['"]?[A-Za-z0-9\-\._=]{10,}
-# ================= AUTH =================
 (?i)authorization\s*:\s*bearer\s+[A-Za-z0-9\-\._=]+
 (?i)authorization\s*:\s*basic\s+[A-Za-z0-9=:_\+\/-]+
-# ================= DB =================
 (?i)(db_password|database_password|redis_password|mongo_password|postgres_password)\s*[:=]\s*['"][^'"]{5,}
 mongodb(\+srv)?:\/\/[^\s:@]+:[^\s:@]+@
 postgresql:\/\/[^\s:@]+:[^\s:@]+@
-# ================= PT-BR =================
 (?i)(senha|senhas|credencial|credenciais|chave|segredo)\s*[:=]\s*['"][^'"]{5,}
 (?i)(senhaUsuario|senhaAdmin|senhaBanco|chaveSecreta|chaveApi)\s*[:=]\s*['"][^'"]{5,}
-# ================= URL COM CRED =================
 https?:\/\/[^\s:@]+:[^\s:@]+@
-# ================= EMAIL (contextualizado) =================
 (?i)(email|user|login|contact|from|to)\s*[:=]\s*['"]?[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+
-# ================= VIRUSTOTAL =================
 virustotal[_-]?apikey\s*[:=]
