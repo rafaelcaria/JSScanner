@@ -1,62 +1,79 @@
-#import faster_than_requests as requests
 import concurrent.futures
 import requests
-from concurrent import futures
-#import requests as r 
-import re 
-import urllib3 
-import os
+import re
+import urllib3
 import argparse
 import colored
 from colored import stylize
+
 urllib3.disable_warnings()
 
-parser = argparse.ArgumentParser(description='Regex Matcher')
-parser.add_argument('-f', '--file', help='File containing IP addresses', required=True)
-parser.add_argument('-r', '--regex', help='File containing regex patterns', required=True)
+parser = argparse.ArgumentParser(description='JS Secret & Link Scanner')
+parser.add_argument('-f', '--file',   help='File containing URLs to scan', required=True)
+parser.add_argument('-r', '--regex',  help='File containing regex patterns', required=True)
 parser.add_argument('-o', '--output', help='Output file to store matches', default='out.txt')
-
 args = parser.parse_args()
 
-list=[] 
-file1 = open(args.file, 'r')
-Lines = file1.readlines() 
-count = 0
-# Strips the newline character
-for line in Lines: 
-    ip = line.strip()
-    print(colored.fg("white"), ip)
+# Carrega URLs
+with open(args.file, 'r') as f:
+    urls = [line.strip() for line in f if line.strip()]
+
+# Carrega patterns uma única vez (não dentro do loop)
+with open(args.regex, 'r') as f:
+    patterns = [line.strip() for line in f if line.strip()]
+
+print(colored.fg("cyan") + f"[*] Loaded {len(urls)} URLs and {len(patterns)} patterns")
+print(colored.fg("cyan") + f"[*] Output: {args.output}\n")
+
+def scan_url(url):
+    results = []
     try:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-            futures = [
-                executor.submit(
-                    lambda: requests.get(ip))
-            for _ in range(1)
-        ]
-            
+        response = requests.get(
+            url,
+            verify=False,
+            timeout=10,
+            headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"}
+        )
+        content = response.text
 
-        results = [
-            f.result().text
-            for f in futures
-        ]
+        for pattern in patterns:
+            try:
+                matches = re.finditer(pattern, content, re.MULTILINE)
+                for matchNum, match in enumerate(matches, start=1):
+                    result = {
+                        "url": url,
+                        "pattern": pattern,
+                        "match": match.group(),
+                        "matchNum": matchNum
+                    }
+                    results.append(result)
+            except re.error as e:
+                print(colored.fg("yellow") + f"[!] Invalid regex '{pattern}': {e}")
 
-        
-        
-        file2 = open(args.regex, 'r')
-        Lines2 = file2.readlines()
-        for line2 in Lines2: 
-            regex = line2.strip()
-        #print(regex)
-            matches = re.finditer(regex, str(results), re.MULTILINE)
-            for matchNum, match in enumerate(matches, start=1):
-    
-                print (colored.fg("green") ,"Regex: ",regex)
-                print(colored.fg("red") , "Match {matchNum} was found at: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()), '\n')
-                f = open('out.txt.txt', 'a')
-                L = [ip, '\n', "Regex: ", regex, '\n', "Match {matchNum} was found at : {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()),'\n']
-                f.writelines(L)
-                f.close()
-           
     except requests.exceptions.RequestException as e:
-        # A serious problem happened, like an SSLError or InvalidURL
-        print("Error: {}".format(e))
+        print(colored.fg("yellow") + f"[!] Error fetching {url}: {e}")
+
+    return results
+
+# Processa URLs em paralelo
+with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+    future_to_url = {executor.submit(scan_url, url): url for url in urls}
+
+    with open(args.output, 'a') as out_file:
+        for future in concurrent.futures.as_completed(future_to_url):
+            url = future_to_url[future]
+            print(colored.fg("white") + f"[*] Scanning: {url}")
+
+            try:
+                findings = future.result()
+                for f in findings:
+                    print(colored.fg("green")  + f"    [+] Pattern : {f['pattern']}")
+                    print(colored.fg("red")    + f"    [+] Match {f['matchNum']}: {f['match']}\n")
+
+                    out_file.write(f"URL: {f['url']}\n")
+                    out_file.write(f"Pattern: {f['pattern']}\n")
+                    out_file.write(f"Match {f['matchNum']}: {f['match']}\n")
+                    out_file.write("-" * 60 + "\n")
+
+            except Exception as e:
+                print(colored.fg("yellow") + f"[!] Exception for {url}: {e}")
